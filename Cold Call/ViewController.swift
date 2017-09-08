@@ -23,6 +23,7 @@ class ViewController: UIViewController {
         } else {
             random = Int(arc4random_uniform(UInt32(namesArr.count)))
         }
+        last = random
         nameLabel.text = namesArr[random]
     }
     
