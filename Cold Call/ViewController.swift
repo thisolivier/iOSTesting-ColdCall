@@ -14,22 +14,48 @@ class ViewController: UIViewController {
     let namesArr = ["Rick","Summer","Jerry","Morty","Beth","Tammy","Bird Person"]
     
     @IBOutlet weak var nameLabel: UILabel!
+    @IBOutlet weak var numLabel: UILabel!
+    
     @IBAction func coldCallButton(_ sender: UIButton) {
+        let randomChoice = randomNum(range: namesArr.count)
+        let randomColNum = randomNum(col:true) + 1
+        let col:UIColor!
+        switch randomColNum{
+        case  1, 2:
+            col = UIColor.red
+        case  3, 4:
+            col = UIColor.orange
+        default:
+            col = UIColor.green
+        }
+        numLabel.isHidden = false
+        numLabel.text = String(randomColNum)
+        numLabel.textColor = col
+        nameLabel.text = namesArr[randomChoice]
+    }
+    
+    func randomNum (range:Int = 5, col:Bool = false)->Int{
         var random:Int!
-        if let theLast = last {
+        if (col == false), let theLast = last {
             repeat{
-                random = Int(arc4random_uniform(UInt32(namesArr.count)))
+                random = Int(arc4random_uniform(UInt32(range)))
             } while random == theLast
         } else {
-            random = Int(arc4random_uniform(UInt32(namesArr.count)))
+            random = Int(arc4random_uniform(UInt32(range)))
         }
-        nameLabel.text = namesArr[random]
+        
+        if col == false {
+            last = random
+        }
+        
+        return random
     }
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        numLabel.isHidden = true
     }
 
     override func didReceiveMemoryWarning() {
